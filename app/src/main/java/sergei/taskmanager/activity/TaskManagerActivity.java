@@ -1,4 +1,4 @@
-package com.example.sergei.taskmanager.activity;
+package sergei.taskmanager.activity;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.example.sergei.taskmanager.R;
-import com.example.sergei.taskmanager.fragment.TaskManagerFragment;
+import sergei.taskmanager.R;
+import sergei.taskmanager.fragment.TaskManagerFragment;
 
 /**
  * Created by sergei on 28.08.2016.

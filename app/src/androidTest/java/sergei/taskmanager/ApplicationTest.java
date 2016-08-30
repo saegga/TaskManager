@@ -1,4 +1,4 @@
-package com.example.sergei.taskmanager;
+package sergei.taskmanager;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

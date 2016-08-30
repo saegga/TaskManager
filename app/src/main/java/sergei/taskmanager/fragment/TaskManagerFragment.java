@@ -1,4 +1,4 @@
-package com.example.sergei.taskmanager.fragment;
+package sergei.taskmanager.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.sergei.taskmanager.R;
+import sergei.taskmanager.R;
 
 /**
  * Created by sergei on 28.08.2016.

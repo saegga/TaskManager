@@ -1,4 +1,4 @@
-package com.example.sergei.taskmanager;
+package sergei.taskmanager;
 
 import org.junit.Test;
 
