@@ -4,11 +4,20 @@
     android:layout_width="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_new_task_id"
+        android:id="@+id/recycler_view_new_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
     />
+    <TextView
+        android:id="@+id/empty_view_tasks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/empty_view_text"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:visibility="gone"
+        />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_new_task"
         android:layout_width="wrap_content"

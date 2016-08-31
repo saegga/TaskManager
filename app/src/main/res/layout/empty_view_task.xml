@@ -4,13 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/empty_view_tasks"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/empty_view_text"
-        android:textSize="20sp"
-        android:gravity="center"
-        />
+
 
 </LinearLayout>
