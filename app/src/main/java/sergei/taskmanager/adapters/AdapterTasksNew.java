@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.generator.greendao.Task;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import sergei.taskmanager.R;
@@ -40,7 +38,7 @@ public class AdapterTasksNew extends RecyclerView.Adapter<AdapterTasksNew.ViewHo
         return tasks.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView textTask;
         public ViewHolder(View itemView) {

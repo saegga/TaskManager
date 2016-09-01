@@ -15,6 +15,7 @@ import com.generator.greendao.DaoSession;
 import com.generator.greendao.Task;
 import com.generator.greendao.TaskDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sergei.taskmanager.App;
@@ -43,7 +44,6 @@ public class TaskManagerFragment extends Fragment {
         emptyView = (TextView) view.findViewById(R.id.empty_view_tasks);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-
         setViewRecycler(taskList);
         return view;
     }
@@ -56,14 +56,12 @@ public class TaskManagerFragment extends Fragment {
         taskDao = daoSession.getTaskDao();
         taskList = taskDao.loadAll();
 
-
     }
     public void setViewRecycler(List<Task> taskList){
-        //// TODO: 31.08.2016 Не работает отображение fab и empty view
         AdapterTasksNew adapterTasksNew = new AdapterTasksNew(taskList);
         if(adapterTasksNew.getItemCount() == 0){
             emptyView.setVisibility(View.VISIBLE);
-           // recyclerView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         }else{
             emptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
