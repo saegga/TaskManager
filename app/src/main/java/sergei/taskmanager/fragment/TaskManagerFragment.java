@@ -33,6 +33,7 @@ public class TaskManagerFragment extends Fragment {
     private TextView emptyView;
     private DaoSession daoSession;
     private TaskDao taskDao;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,6 +43,8 @@ public class TaskManagerFragment extends Fragment {
         emptyView = (TextView) view.findViewById(R.id.empty_view_tasks);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        setViewRecycler(taskList);
         return view;
     }
 
@@ -52,18 +55,19 @@ public class TaskManagerFragment extends Fragment {
         daoSession = ((App) getActivity().getApplication()).getDaoSession();
         taskDao = daoSession.getTaskDao();
         taskList = taskDao.loadAll();
-        setViewRecycler(taskList);
+
 
     }
     public void setViewRecycler(List<Task> taskList){
+        //// TODO: 31.08.2016 Не работает отображение fab и empty view
         AdapterTasksNew adapterTasksNew = new AdapterTasksNew(taskList);
         if(adapterTasksNew.getItemCount() == 0){
             emptyView.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+           // recyclerView.setVisibility(View.GONE);
         }else{
-            recyclerView.setAdapter(adapterTasksNew);
             emptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+        recyclerView.setAdapter(adapterTasksNew);
     }
 }

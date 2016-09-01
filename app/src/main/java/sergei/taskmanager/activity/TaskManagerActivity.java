@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -34,7 +35,6 @@ public class TaskManagerActivity extends AppCompatActivity {
         }
         toolbar.setNavigationIcon(R.mipmap.ic_menu_white_24dp);
         setSupportActionBar(toolbar);
-
         initDrawer();
         initFragment();
 

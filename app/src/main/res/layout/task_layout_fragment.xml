@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:focusableInTouchMode="true">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_new_task"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
     />
     <TextView
@@ -25,5 +26,6 @@
         android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
         android:src="@mipmap/ic_add_white_24dp"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:translationZ="12dp"/>
 </android.support.design.widget.CoordinatorLayout>
