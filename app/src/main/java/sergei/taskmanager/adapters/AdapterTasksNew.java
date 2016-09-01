@@ -37,6 +37,12 @@ public class AdapterTasksNew extends RecyclerView.Adapter<AdapterTasksNew.ViewHo
     public int getItemCount() {
         return tasks.size();
     }
+    public void updateAdapterList(List<Task> tasks){
+        this.tasks.clear();
+        this.tasks.addAll(tasks);
+        this.notifyDataSetChanged();
+
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
