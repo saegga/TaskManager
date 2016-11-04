@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import java.util.List;
 
 import sergei.taskmanager.App;
 import sergei.taskmanager.R;
+import sergei.taskmanager.activity.TaskManagerActivity;
 import sergei.taskmanager.adapters.AdapterTasksNew;
 
 /**
@@ -92,6 +94,14 @@ public class TaskManagerFragment extends Fragment {
                 dialog.show();
             }
         });
+
+        recyclerView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(TAG, "Long click");
+                return false;
+            }
+        });
         return view;
     }
     @Override
@@ -100,8 +110,9 @@ public class TaskManagerFragment extends Fragment {
         //// TODO: 30.08.2016 Добавить EventBus
         daoSession = ((App) getActivity().getApplication()).getDaoSession();
         taskDao = daoSession.getTaskDao();
-        taskDao.deleteAll();
+       // taskDao.deleteAll();
         taskList = taskDao.loadAll();
+        taskList.add(new Task(0L, "text", "2014-16-13", false));
         //updateAdapter();
     }
 
@@ -133,7 +144,7 @@ public class TaskManagerFragment extends Fragment {
     }
 
     public void setViewRecycler(List<Task> taskList){
-        mAdapterTaskNew = new AdapterTasksNew(taskList);
+        mAdapterTaskNew = new AdapterTasksNew(getContext(), taskList);
         if(mAdapterTaskNew.getItemCount() == 0){
             emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -153,4 +164,5 @@ public class TaskManagerFragment extends Fragment {
         }
     }
 }
+
 //// TODO: 01.09.2016 Можно ли объеденить методы updateViewVisible и setViewRecycler
