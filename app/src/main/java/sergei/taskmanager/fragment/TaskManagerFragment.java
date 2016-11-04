@@ -7,11 +7,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -36,7 +39,7 @@ import sergei.taskmanager.adapters.AdapterTasksNew;
 /**
  * Created by sergei on 28.08.2016.
  */
-public class TaskManagerFragment extends Fragment {
+public class TaskManagerFragment extends Fragment implements ActionMode.Callback {
 
     private FloatingActionButton fabAddTask;
     private RecyclerView recyclerView;
@@ -48,6 +51,7 @@ public class TaskManagerFragment extends Fragment {
     private static final String TAG = TaskManagerFragment.class.getName();
     private String mTextNewTask;
     private AdapterTasksNew mAdapterTaskNew;
+    private ActionMode actionMode;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -161,6 +165,36 @@ public class TaskManagerFragment extends Fragment {
         }else{
             emptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+
+    }
+
+    private class RecyclerViewSelectListener implements View.OnLongClickListener{
+
+        @Override
+        public boolean onLongClick(View v) {
+
+
+            return false;
         }
     }
 }
