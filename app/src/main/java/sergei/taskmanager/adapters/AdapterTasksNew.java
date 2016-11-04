@@ -2,6 +2,8 @@ package sergei.taskmanager.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.generator.greendao.Task;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -22,12 +26,35 @@ public class AdapterTasksNew extends RecyclerView.Adapter<AdapterTasksNew.ViewHo
 
     private List<Task> tasks;
     private static Context mContext;
+    private SparseBooleanArray selectedItems;
     //private boolean mVisibleCheckBox = false;
 
     public AdapterTasksNew(Context context, List<Task> tasks) {
         this.tasks = tasks;
         this.mContext = context;
         //this.mVisibleCheckBox = visibleCheckBox;
+    }
+    public void toggleSelection(int position){
+        if(selectedItems.get(position, false)){
+            selectedItems.delete(position);
+        }else{
+            selectedItems.put(position, true);
+        }
+        notifyItemChanged(position);
+    }
+    public void clearSelections(){
+        selectedItems.clear();
+        notifyDataSetChanged();
+    }
+    public int getSelectedItemCount(){
+        return selectedItems.size();
+    }
+    public List<Integer> getSelectedItems(){
+        List<Integer> items = new ArrayList<>(selectedItems.size());
+        for (int i = 0; i < selectedItems.size(); i++) {
+            items.add(selectedItems.keyAt(i));
+        }
+        return items;
     }
 
     @Override
