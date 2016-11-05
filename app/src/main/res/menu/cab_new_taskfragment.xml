@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/action_remove"
+        android:id="@+id/delete_new_tasks"
+        android:icon="@mipmap/ic_delete_white_24dp"
+
+        />
+</menu>

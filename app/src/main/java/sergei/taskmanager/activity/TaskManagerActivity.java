@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,12 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.generator.greendao.Task;
-
-import java.util.Stack;
-
 import sergei.taskmanager.R;
-import sergei.taskmanager.fragment.TaskManagerFragment;
+import sergei.taskmanager.fragment.NewTaskManagerFragment;
 
 /**
  * Created by sergei on 28.08.2016.
@@ -57,12 +52,12 @@ public class TaskManagerActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = fragmentManager.findFragmentById(R.id.task_fragment_container);
         if(fragment == null){
-            fragment = new TaskManagerFragment();
+            fragment = new NewTaskManagerFragment();
             fragmentManager.beginTransaction()
                     .add(R.id.task_fragment_container, fragment)
                     .commit();
         }
-//        TaskManagerFragment taskManagerFragment;
+//        NewTaskManagerFragment taskManagerFragment;
 
     }
 

@@ -1,23 +1,24 @@
 package sergei.taskmanager.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,20 +27,17 @@ import com.generator.greendao.DaoSession;
 import com.generator.greendao.Task;
 import com.generator.greendao.TaskDao;
 
-import org.greenrobot.greendao.query.QueryBuilder;
-
 import java.util.Date;
 import java.util.List;
 
 import sergei.taskmanager.App;
 import sergei.taskmanager.R;
-import sergei.taskmanager.activity.TaskManagerActivity;
 import sergei.taskmanager.adapters.AdapterTasksNew;
 
 /**
  * Created by sergei on 28.08.2016.
  */
-public class TaskManagerFragment extends Fragment implements ActionMode.Callback {
+public class NewTaskManagerFragment extends Fragment implements ActionMode.Callback {
 
     private FloatingActionButton fabAddTask;
     private RecyclerView recyclerView;
@@ -48,10 +46,10 @@ public class TaskManagerFragment extends Fragment implements ActionMode.Callback
     private TextView emptyView;
     private DaoSession daoSession;
     private TaskDao taskDao;
-    private static final String TAG = TaskManagerFragment.class.getName();
+    private static final String TAG = NewTaskManagerFragment.class.getName();
     private String mTextNewTask;
     private AdapterTasksNew mAdapterTaskNew;
-    private ActionMode actionMode;
+    private ActionMode mActionMode;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +61,6 @@ public class TaskManagerFragment extends Fragment implements ActionMode.Callback
 
         recyclerView.setLayoutManager(layoutManager);
         setViewRecycler(taskList);
-
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,13 +96,13 @@ public class TaskManagerFragment extends Fragment implements ActionMode.Callback
             }
         });
 
-        recyclerView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Log.d(TAG, "Long click");
-                return false;
-            }
-        });
+//        recyclerView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                Log.d(TAG, "Long click");
+//                return false;
+//            }
+//        });
         return view;
     }
     @Override
@@ -117,6 +114,7 @@ public class TaskManagerFragment extends Fragment implements ActionMode.Callback
        // taskDao.deleteAll();
         taskList = taskDao.loadAll();
         taskList.add(new Task(0L, "text", "2014-16-13", false));
+        taskList.add(new Task(1L, "new", "2014-16-13", false));
         //updateAdapter();
     }
 
@@ -148,7 +146,7 @@ public class TaskManagerFragment extends Fragment implements ActionMode.Callback
     }
 
     public void setViewRecycler(List<Task> taskList){
-        mAdapterTaskNew = new AdapterTasksNew(getContext(), taskList);
+        mAdapterTaskNew = new AdapterTasksNew(getContext(), taskList, new RecyclerViewClickListener());
         if(mAdapterTaskNew.getItemCount() == 0){
             emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -168,9 +166,17 @@ public class TaskManagerFragment extends Fragment implements ActionMode.Callback
         }
     }
 
+    private void toggleSelect(int idx){
+        mAdapterTaskNew.toggleSelection(idx);
+        Log.d(TAG, "toggle activity : " + idx );
+    }
+
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        return false;
+        MenuInflater menuInflater = mode.getMenuInflater();
+        menuInflater.inflate(R.menu.cab_new_taskfragment, menu);
+        fabAddTask.setVisibility(View.GONE);
+        return true;
     }
 
     @Override
@@ -180,23 +186,38 @@ public class TaskManagerFragment extends Fragment implements ActionMode.Callback
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        return false;
+        switch (item.getItemId()){
+            case R.id.delete_new_tasks:
+                List<Integer> deletesItems = mAdapterTaskNew.getSelectedItems();
+                for (int i = 0; i < deletesItems.size(); i++) {
+                    // удаление из бд записи
+                }
+                mActionMode.finish();
+                break;
+            default: return false;
+        }
+        return true;
     }
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-
+        this.mActionMode = null;
+        mAdapterTaskNew.clearSelections();
+        fabAddTask.setVisibility(View.VISIBLE);
     }
-
-    private class RecyclerViewSelectListener implements View.OnLongClickListener{
-
+    private class RecyclerViewClickListener implements View.OnLongClickListener{
         @Override
         public boolean onLongClick(View v) {
-
-
-            return false;
+            if( mActionMode != null ){
+                return false;
+            }
+            mActionMode = getActivity().startActionMode(NewTaskManagerFragment.this);
+            int idx = recyclerView.getChildAdapterPosition(v);
+            toggleSelect(idx);
+            return true;
         }
     }
 }
 
-//// TODO: 01.09.2016 Можно ли объеденить методы updateViewVisible и setViewRecycler
+//// TODO: 04.11.2016 доработать методы http://www.grokkingandroid.com/statelistdrawables-for-recyclerview-selection/
+//// TODO: 05.11.2016 при добавлении задачи обновить список

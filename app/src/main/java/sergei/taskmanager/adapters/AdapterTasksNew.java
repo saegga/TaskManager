@@ -2,12 +2,10 @@ package sergei.taskmanager.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -15,7 +13,6 @@ import com.generator.greendao.Task;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import sergei.taskmanager.R;
 
@@ -26,33 +23,36 @@ public class AdapterTasksNew extends RecyclerView.Adapter<AdapterTasksNew.ViewHo
 
     private List<Task> tasks;
     private static Context mContext;
-    private SparseBooleanArray selectedItems;
+    private SparseBooleanArray mSelectedItems;
+    private View.OnLongClickListener mClickListener;
     //private boolean mVisibleCheckBox = false;
 
-    public AdapterTasksNew(Context context, List<Task> tasks) {
+    public AdapterTasksNew(Context context, List<Task> tasks, View.OnLongClickListener clickListener) {
         this.tasks = tasks;
         this.mContext = context;
+        this.mClickListener = clickListener;
+        mSelectedItems = new SparseBooleanArray();
         //this.mVisibleCheckBox = visibleCheckBox;
     }
     public void toggleSelection(int position){
-        if(selectedItems.get(position, false)){
-            selectedItems.delete(position);
+        if(mSelectedItems.get(position, false)){
+            mSelectedItems.delete(position);
         }else{
-            selectedItems.put(position, true);
+            mSelectedItems.put(position, true);
         }
         notifyItemChanged(position);
     }
     public void clearSelections(){
-        selectedItems.clear();
+        mSelectedItems.clear();
         notifyDataSetChanged();
     }
     public int getSelectedItemCount(){
-        return selectedItems.size();
+        return mSelectedItems.size();
     }
     public List<Integer> getSelectedItems(){
-        List<Integer> items = new ArrayList<>(selectedItems.size());
-        for (int i = 0; i < selectedItems.size(); i++) {
-            items.add(selectedItems.keyAt(i));
+        List<Integer> items = new ArrayList<>(mSelectedItems.size());
+        for (int i = 0; i < mSelectedItems.size(); i++) {
+            items.add(mSelectedItems.keyAt(i));
         }
         return items;
     }
@@ -66,9 +66,9 @@ public class AdapterTasksNew extends RecyclerView.Adapter<AdapterTasksNew.ViewHo
     @Override
     public void onBindViewHolder(AdapterTasksNew.ViewHolder holder, int position) {
         holder.textTask.setText(tasks.get(position).getText_task());
-
+        holder.itemView.setOnLongClickListener(mClickListener);
+        holder.itemView.setActivated(mSelectedItems.get(position, false));
     }
-
     @Override
     public int getItemCount() {
         return tasks.size();

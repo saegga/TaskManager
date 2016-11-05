@@ -5,4 +5,5 @@
     <string name="create_new_task_text">Создайте новую задачу</string>
     <string name="btn_create_yes">Создать</string>
     <string name="btn_cancel">Отмена</string>
+    <string name="action_remove">удалить</string>
 </resources>
